@@ -1,0 +1,31 @@
+version: '2.4'
+services:
+
+  startup-smoke-test:
+    image: curlimages/curl
+    depends_on:
+      mystore-api:
+        condition: service_healthy
+
+  mystore-api:
+    image: mystore-api:<localBuild>
+    ports:
+      - 8080:8080
+      - 9095:9095
+    environment:
+      cassandra_host: cassandra
+    healthcheck:
+      test: "curl -o /dev/null -s -w '%{http_code}' http://localhost:8080/readiness | grep 202"
+    depends_on:
+      cassandra:
+        condition: service_healthy
+
+  cassandra:
+    image: cassandra:3.11.9
+    ports:
+      - 9042:9042
+    healthcheck:
+      test: [ "CMD", "cqlsh", "-e", "describe keyspaces" ]
+      interval: 5s
+      timeout: 5s
+      retries: 60

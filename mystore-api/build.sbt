@@ -1,0 +1,2 @@
+
+dockerImageCreationTask := (Docker / publishLocal).value
