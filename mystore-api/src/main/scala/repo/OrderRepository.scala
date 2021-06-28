@@ -14,11 +14,6 @@ class OrderRepository {
       query[CustomerOrder].filter(_.userId.equals(lift(userId)))
     })
 
-  def selectFirstNForUser(userId: String, numberOfRecords: Int): Future[List[CustomerOrder]] =
-    selectAllForUser(userId).collect { case orders: List[CustomerOrder] =>
-      orders.take(numberOfRecords)
-    }
-
   def insertOrderForUser(order: CustomerOrder): Future[Unit] =
     quillDB.run(quote {
       query[CustomerOrder].insert(lift(order))

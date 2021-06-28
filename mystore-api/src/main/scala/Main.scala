@@ -1,11 +1,11 @@
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route.seal
 import config.AppConfig._
-import repo.CassandraDB
-import akka.http.scaladsl.server.Directives._
-import route.{InventoryRoutes, OrderRoutes}
-import utils.Logging
 import kamon.Kamon
+import repo.CassandraDB
+import route.{HealthRoute, InventoryRoute, OrderRoute}
+import utils.Logging
 
 import scala.util.{Failure, Success}
 
@@ -15,7 +15,7 @@ object Main extends App with Logging {
 
   Http()
     .newServerAt(appConfig.http.hostname, appConfig.http.port)
-    .bindFlow(seal(concat(OrderRoutes.route, InventoryRoutes.route)))
+    .bindFlow(seal(concat(OrderRoute.route, InventoryRoute.route, HealthRoute.route)))
     .onComplete {
       case Success(_) =>
         Kamon.init

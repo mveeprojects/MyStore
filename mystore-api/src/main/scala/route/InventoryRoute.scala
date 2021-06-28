@@ -7,7 +7,7 @@ import model.MyProtocols._
 import model.{DECREASE, INCREASE}
 import service.InventoryService._
 
-object InventoryRoutes {
+object InventoryRoute {
   private val basePath = "inventory"
   val route: Route = concat(
     get {
