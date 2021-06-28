@@ -15,6 +15,6 @@ object MyProtocols extends SprayJsonSupport with DefaultJsonProtocol {
     }
   }
 
-  implicit val orderFormat: RootJsonFormat[Order] = jsonFormat5(Order)
+  implicit val orderFormat: RootJsonFormat[CustomerOrder] = jsonFormat5(CustomerOrder)
   implicit val inventoryFormat: RootJsonFormat[Inventory] = jsonFormat3(Inventory)
 }

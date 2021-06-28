@@ -3,7 +3,7 @@ package route
 import akka.http.scaladsl.model.StatusCodes
 import base.FuncSpecBase
 import config.TestConfig.testConf._
-import model.Order
+import model.CustomerOrder
 import org.scalatest.concurrent.ScalaFutures.convertScalaFuture
 import utils.DBUtils._
 import utils.HttpUtils._
@@ -19,8 +19,8 @@ class OrderRoutesSpec extends FuncSpecBase {
     "when GET is called for a userId that does not exist" - {
       "should return an empty list of orders" in {
         eventually {
-          val getResult: Future[Seq[Order]] = fireGetRequest(testUserId)
-          getResult.futureValue shouldBe Seq.empty[Order]
+          val getResult: Future[Seq[CustomerOrder]] = fireGetRequest(testUserId)
+          getResult.futureValue shouldBe Seq.empty[CustomerOrder]
         }
       }
     }
@@ -29,8 +29,8 @@ class OrderRoutesSpec extends FuncSpecBase {
       "should return a list of orders for that user" in {
         insertOrderIntoDB(testUserId, testOrderId)
         eventually {
-          val getResult: Future[Seq[Order]] = fireGetRequest(testUserId)
-          val orders: Seq[Order]            = getResult.futureValue
+          val getResult: Future[Seq[CustomerOrder]] = fireGetRequest(testUserId)
+          val orders: Seq[CustomerOrder]            = getResult.futureValue
 
           orders.length shouldBe 1
           orders.head.userId shouldBe testUserId
@@ -45,8 +45,8 @@ class OrderRoutesSpec extends FuncSpecBase {
           val putResult = firePutRequest(testUserId, testOrderId, 1)
           putResult.futureValue shouldBe StatusCodes.Created
 
-          val getResult          = fireGetRequest(testUserId)
-          val orders: Seq[Order] = getResult.futureValue
+          val getResult                  = fireGetRequest(testUserId)
+          val orders: Seq[CustomerOrder] = getResult.futureValue
           orders.length shouldBe 1
           orders.head.userId shouldBe testUserId
           orders.head.orderId shouldBe testOrderId
@@ -62,8 +62,8 @@ class OrderRoutesSpec extends FuncSpecBase {
           val deleteResult = fireDeleteRequest(testUserId, testOrderId)
           deleteResult.futureValue shouldBe StatusCodes.NoContent
 
-          val getResult: Future[Seq[Order]] = fireGetRequest(testUserId)
-          getResult.futureValue shouldBe Seq.empty[Order]
+          val getResult: Future[Seq[CustomerOrder]] = fireGetRequest(testUserId)
+          getResult.futureValue shouldBe Seq.empty[CustomerOrder]
         }
       }
     }

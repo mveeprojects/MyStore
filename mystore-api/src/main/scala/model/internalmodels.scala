@@ -2,7 +2,7 @@ package model
 
 import java.time.Instant
 
-case class Order(
+case class CustomerOrder(
     userId: String,
     orderId: String,
     itemId: String,

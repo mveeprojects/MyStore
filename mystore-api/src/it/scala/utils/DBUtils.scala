@@ -2,7 +2,7 @@ package utils
 
 import com.datastax.driver.core.Cluster
 import io.getquill.{CamelCase, CassandraAsyncContext}
-import model.Order
+import model.CustomerOrder
 
 import java.time.Instant
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -22,17 +22,16 @@ object DBUtils {
 
   def insertOrderIntoDB(userId: String, orderId: String): Future[Unit] =
     testQuillDB.run(quote {
-      query[Order].insert(lift(Order(userId, orderId, "123", 1, Instant.now())))
+      query[CustomerOrder].insert(lift(CustomerOrder(userId, orderId, "123", 1, Instant.now)))
     })
 
   def removeOrdersFromDB(userId: String): Future[Unit] =
     testQuillDB.run(quote {
-      query[Order]
+      query[CustomerOrder]
         .filter(_.userId.equals(lift(userId)))
         .delete
     })
 
-  def closeTestCassandraSession(): Unit = {
+  def closeTestCassandraSession(): Unit =
     testQuillDB.close()
-  }
 }
