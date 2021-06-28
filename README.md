@@ -5,9 +5,11 @@
 To run the application and Cassandra together via docker-compose, from the root of the project run the
 following `./sbt dockerUp`.
 
-To run the integration tests (once everything is running in docker), run `./sbt IntegrationTest/test`.
-
 To stop everything, run `./sbt dockerDown`.
+
+To start everything in docker, run all the integration tests and then stop everything, run `./sbt dockerIntTests`.
+
+To only run the integration tests (if everything is already running in docker), run `./sbt IntegrationTest/test`.
 
 ## HTTP Endpoints
 

@@ -5,11 +5,11 @@ import akka.http.scaladsl.server.Directives.{complete, get, path, _}
 import akka.http.scaladsl.server.Route
 import config.AppConfig._
 import model.MyProtocols._
-import service.OrderService._
 import service.InventoryService._
+import service.OrderService._
 import spray.json._
 
-object OrderRoutes {
+object OrderRoute {
   private val basePath = "orders"
   val route: Route = concat(
     get {
@@ -24,21 +24,16 @@ object OrderRoutes {
         complete(StatusCodes.Created, s"$quantity x $itemId has been added to $userId's orders")
       }
     },
-    delete {
-      path(basePath / Segment / Segment) { (userId, orderId) =>
-        deleteOrderForUser(userId, orderId)
-        complete(StatusCodes.NoContent)
-      }
-    },
-    get {
-      path("readiness") {
-        complete(StatusCodes.Accepted)
-      }
-    },
     put {
       path(basePath / Segment / Segment / Segment) { (itemId, desc, quantity) =>
         addNewItemToInventory(itemId, desc, quantity.toInt)
         complete(StatusCodes.Created, s"$quantity x $desc has been added to the inventory")
+      }
+    },
+    delete {
+      path(basePath / Segment / Segment) { (userId, orderId) =>
+        deleteOrderForUser(userId, orderId)
+        complete(StatusCodes.NoContent)
       }
     }
   )
