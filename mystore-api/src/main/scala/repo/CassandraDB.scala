@@ -44,6 +44,7 @@ object CassandraDB extends Logging {
     session.execute("USE " + CqlIdentifier.fromCql(keyspace))
 
   private def createInventoryTableIfNotExists: ResultSet = {
+    logger.info(s"Creating $inventorytablename table if it does not already exist")
     val statement: SimpleStatement = SchemaBuilder
       .createTable(inventorytablename)
       .ifNotExists
@@ -55,6 +56,7 @@ object CassandraDB extends Logging {
   }
 
   private def createOrderTableIfNotExists: ResultSet = {
+    logger.info(s"Creating $ordertablename table if it does not already exist")
     val statement: SimpleStatement = SchemaBuilder
       .createTable(ordertablename)
       .ifNotExists

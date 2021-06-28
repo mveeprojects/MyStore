@@ -4,8 +4,8 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model._
 import akka.http.scaladsl.unmarshalling.Unmarshal
+import model.CustomerOrder
 import model.MyProtocols._
-import model.Order
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -21,10 +21,10 @@ object HttpUtils {
   private val inventoryBaseUrl = s"$baseUrl:$apiPort/inventory"
   private val requestHeaders   = List(headers.RawHeader("`Content-Type`", "application/json"))
 
-  def fireGetRequest(userId: String): Future[Seq[Order]] =
+  def fireGetRequest(userId: String): Future[Seq[CustomerOrder]] =
     Http()
       .singleRequest(HttpRequest(HttpMethods.GET, s"$ordersBaseUrl/$userId", requestHeaders))
-      .flatMap(response => Unmarshal(response).to[Seq[Order]].collect { case orders => orders })
+      .flatMap(response => Unmarshal(response).to[Seq[CustomerOrder]].collect { case orders => orders })
 
   def firePutRequest(userId: String, orderId: String, quantity: Int): Future[StatusCode] =
     Http()

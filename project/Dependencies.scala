@@ -8,7 +8,7 @@ object Dependencies {
     val akkaHttp        = "10.2.3"
     val logback         = "1.2.3"
     val pureConfig      = "0.14.0"
-    val cassandraDriver = "4.9.0"
+    val cassandraDriver = "4.12.0"
     val quill           = "3.6.1"
     val scalaTest       = "3.2.2"
     val kamon           = "2.1.12"
