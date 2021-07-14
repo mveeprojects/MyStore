@@ -1,5 +1,13 @@
 # MyStore
 
+### mystore-api
+
+REST API for processing requests of orders or to update/query the inventory
+
+### mystore-ui
+
+Not yet built, the aim is to build a frontend using Scala.js to interact with mystore-api
+
 ## Running/Testing the app
 
 To run the application and Cassandra together via docker-compose, from the root of the project run the
