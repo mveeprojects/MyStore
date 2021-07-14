@@ -15,22 +15,17 @@ object CassandraDB extends Logging {
 
   private lazy val session: CqlSession = openDBInitSession(host, port, datacentre)
 
-  def init(): Unit = {
+  def init: Try[ResultSet] = {
     logger.info("Configuring Keyspace and Schema in Cassandra...")
     Try {
       createKeyspaceIfNotExists()
       useKeyspace
       createInventoryTableIfNotExists
       createOrderTableIfNotExists
-    } match {
-      case Success(_) =>
-        logger.info("DB initialisation completed successfully.")
-        closeDBInitSession(session)
-      case Failure(exception) =>
-        logger.error(s"Exception thrown during DB initialisation => ${exception.getMessage}")
-        closeDBInitSession(session)
     }
   }
+
+  def closeDBSession(): Unit = closeDBInitSession(session)
 
   private def createKeyspaceIfNotExists(): Unit = {
     val cks: CreateKeyspace = SchemaBuilder

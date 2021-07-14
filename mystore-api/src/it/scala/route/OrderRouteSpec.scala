@@ -20,21 +20,7 @@ class OrderRouteSpec extends ApiIntSpecBase {
       "should return an empty list of orders" in {
         eventually {
           val getResult: Future[Seq[CustomerOrder]] = fireGetOrdersRequest(testUserId)
-          getResult.futureValue shouldBe Seq.empty[CustomerOrder]
-        }
-      }
-    }
-
-    "when GET is called for a userId that already exists" - {
-      "should return a list of orders for that user" in {
-        insertOrderIntoDB(testUserId, testOrderId)
-        eventually {
-          val getResult: Future[Seq[CustomerOrder]] = fireGetOrdersRequest(testUserId)
-          val orders: Seq[CustomerOrder]            = getResult.futureValue
-
-          orders.length shouldBe 1
-          orders.head.userId shouldBe testUserId
-          orders.head.orderId shouldBe testOrderId
+          getResult.futureValue shouldBe List.empty[CustomerOrder]
         }
       }
     }
@@ -63,7 +49,7 @@ class OrderRouteSpec extends ApiIntSpecBase {
           deleteResult.futureValue shouldBe StatusCodes.NoContent
 
           val getResult: Future[Seq[CustomerOrder]] = fireGetOrdersRequest(testUserId)
-          getResult.futureValue shouldBe Seq.empty[CustomerOrder]
+          getResult.futureValue shouldBe List.empty[CustomerOrder]
         }
       }
     }
