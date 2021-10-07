@@ -13,9 +13,12 @@ object Dependencies {
     val scalaTest       = "3.2.2"
     val kamon           = "2.1.12"
     val kanela          = "1.0.7"
+//    val scalaJs         = "1.2.0"
   }
 
   import Versions._
+
+//  val uiDependencies = libraryDependencies += "org.scala-js" % "scalajs-dom" % scalaJs
 
   val cassandraDependencies = Seq(
     "com.datastax.oss" % "java-driver-core"          % cassandraDriver,
